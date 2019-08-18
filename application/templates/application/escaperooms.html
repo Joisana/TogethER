@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+	{% include "application/main_menu.html" %}
+	<strong> Lista escape roomów </strong>
+	<br/>
+	<br/>
+
+	<ul>
+	{% for escaperoom in escaperooms %}
+		<li>{{escaperoom}}</li>
+	{% endfor %}
+	</ul>
+
+</body>
+
+</html>

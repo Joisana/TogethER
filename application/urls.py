@@ -30,21 +30,21 @@ urlpatterns = [
     # dotychczasowe wyjścia ze znajomymi (widać, w jakich pokojach się było i z kim)
     path('historia/', views.history, name = 'history'),
 
+    #planowane wyjścia (zarówno te, które mają już decyzję, jak i te, które jeszcze czekają na decyzję)
+    path('planowane', views.planned, name = 'planned'),
+
     # gotowe wydarzenie
     path('wydarzenie/', views.event, name = 'event'),
 
     # ekran rejestracji użytkownika
     path('rejestracja/', views.registration, name = 'registration'),
+
+    # ekran logowania użytkownika
+    path('logowanie/', views.login, name = 'login'),
+
+    # ekran logowania użytkownika
+    path('wylogowanie/', views.logout, name = 'logout'),
 ]
-
-
-# TE RZECZY POTEM SIĘ WKLEI DO ŚRODKA LISTY urlpatterns
-
-'''
-    # ekran logowania --> zamiast tego może być wyskakujące okno z logowaniem
-    #path('logowanie', views.logging, name = 'logowanie')
-'''
-
 
 
 

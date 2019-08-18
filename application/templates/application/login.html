@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+	{% include "application/main_menu.html" %}
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<form action="{% url 'application:login' %}" method="post">
+		{% csrf_token %}
+		<label for="username">Nazwa użytkownika: </label>
+		<input id="username" type="text" name="username" value="">
+
+		<br/>
+		<label for="password">Hasło: </label>
+		<input id="password" type="password" name="password" value="">
+
+		<br/>
+		<input type="submit" value="Zaloguj">
+	</form>
+</body>
+
+</html>

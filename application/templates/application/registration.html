@@ -1,14 +1,26 @@
-{% if error_message_exists %}<p>Już istnieje użytkownik o nazwie <strong>{{ error_message_exists }}</strong>.</p>{% endif %}
+<!DOCTYPE html>
 
-<form action="{% url 'application:registration' %}" method="post">
-    {% csrf_token %}
-    <label for="username">Nazwa użytkownika: </label>
-    <input id="username" type="text" name="username" value="">
+<html>
+<head>
+</head>
 
-    <br/>
-    <label for="password">Hasło: </label>
-    <input id="password" type="password" name="password" value="">
+<body>
+    {% include "application/main_menu.html" %}
+    {% if error_message_exists %}<p>Już istnieje użytkownik o nazwie <strong>{{ error_message_exists }}</strong>.</p>{% endif %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <br/>
-    <input type="submit" value="Zarejestruj">
-</form>
+    <form action="{% url 'application:registration' %}" method="post">
+        {% csrf_token %}
+        <label for="username">Nazwa użytkownika: </label>
+        <input id="username" type="text" name="username" value="">
+
+        <br/>
+        <label for="password">Hasło: </label>
+        <input id="password" type="password" name="password" value="">
+
+        <br/>
+        <input type="submit" value="Zarejestruj">
+    </form>
+</body>
+
+</html>

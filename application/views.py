@@ -5,13 +5,14 @@ from django.urls import reverse
 
 from .models import User, EscapeRoom
 
+def getUsername (request):
+	try:
+		return User.objects.get(id=request.session['user_id']).username
+	except (KeyError, User.DoesNotExist):
+		return ''
 
 def index(request):
-	return HttpResponse("Tutaj będzie strona główna.")
-	
-
-def visited(request):
-	return HttpResponse("Tutaj będą odwiedzone pokoje.")
+	return render(request, 'application/index.html', {'username': getUsername(request)})
 
 def users(request):
 	return HttpResponse("Tutaj będzie lista wszystkich użytkowników.")
@@ -28,36 +29,73 @@ def goodER(request):
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
+def planned(request):
+	return HttpResponse("Tutaj będą planowane pokoje.")
+
 def event(request):
 	return HttpResponse("Tutaj będzie link do wydarzenia (wyjścia do ER) z informacją o pokoju, dacie, godzinie, kto idzie itp.")
 
 def registration(request):
 	newUser = User()
-	try:
-		newUser.username = request.POST['username']
-	except (KeyError):
+
+	# jeśli użytkownik pierwszy raz otwiera stronę z rejestracją (przed wysłaniem formularza)
+	if 'username' not in request.POST:
 		return render(request, 'application/registration.html', {})
 	
-	# tutaj można poifować np. białe znaki
-	if newUser.username:
-		if User.objects.filter(username=newUser.username):
-			return render(request, 'application/registration.html', {
-				'error_message_exists': newUser.username
-			})
-		else:
-			newUser.save()
+	newUser.username = request.POST['username']
 
-	else:
+	# jeśli nazwa użytkownika jest pusta (użytkownik zostawił puste pole)
+	if not newUser.username:
 		return render(request, 'application/registration.html', {
             'error_message': "Nazwa użytkownika nie może być pusta.",
         })
 
-	return HttpResponseRedirect(reverse('application:index'))
+	# jeśli powtarza się nazwa użytkownika
+	if User.objects.filter(username=newUser.username): 
+		return render(request, 'application/registration.html', {
+			'error_message_exists': newUser.username,
+		})
 
-	# , args=(question.id,)
-
-def escaperooms(request):
-	return render(request, 'application/escaperooms-unlogged.html', {
-            'escaperooms': EscapeRoom.objects.all,
+	# jeśli hasło jest za krótkie (użytkownik zostawił puste pole lub wpisał za krótkie hasło)
+	if len(request.POST['password']) <3:
+		return render(request, 'application/registration.html', {
+            'error_message': "Hasło jest za krótkie. Wybierz hasło długości co najmniej 3 znaków.",
         })
 
+	newUser.passwordHash = request.POST['password']
+
+	newUser.save()
+	return HttpResponseRedirect(reverse('application:index'))
+
+
+def login(request):
+
+	if 'username' not in request.POST:
+		return render(request, 'application/login.html', {})
+
+	try:
+		user = User.objects.get(username=request.POST['username'])
+	except:
+		return render(request, 'application/login.html', {'error_message': "Nieprawidłowy user"})
+
+	
+	if user.passwordHash == request.POST['password']:
+		request.session['user_id'] = user.id
+		return HttpResponseRedirect(reverse('application:index'))
+	else:
+		return render(request, 'application/login.html', {'error_message': "Nieprawidłowe hasło."})
+
+
+def logout(request):
+    try:
+        del request.session['user_id']
+    except KeyError:
+        pass
+    return HttpResponseRedirect(reverse('application:index'))
+
+
+def escaperooms(request):
+	return render(request, 'application/escaperooms.html', {
+		'escaperooms': EscapeRoom.objects.all(),
+		'username': getUsername(request),
+	})
