@@ -17,9 +17,6 @@ urlpatterns = [
     # lista wszystkich użytkowników
     path('uzytkownicy/', views.users, name = 'users'),
 
-    # zapraszanie graczy (wybierasz, z kim chcesz pójść do ER)
-    path('zapraszanie/', views.invitations, name ='invitations'),
-
     # znajomi gracze (można przeglądać, dodawać i usuwać ze znajomych)
     path('znajomi/', views.buddies, name = 'buddies'),
 
@@ -31,7 +28,7 @@ urlpatterns = [
     path('historia/', views.history, name = 'history'),
 
     #planowane wyjścia (zarówno te, które mają już decyzję, jak i te, które jeszcze czekają na decyzję)
-    path('planowane', views.planned, name = 'planned'),
+    path('planowane/', views.planned, name = 'planned'),
 
     # gotowe wydarzenie
     path('wydarzenie/', views.event, name = 'event'),
@@ -44,6 +41,12 @@ urlpatterns = [
 
     # ekran logowania użytkownika
     path('wylogowanie/', views.logout, name = 'logout'),
+
+    # edycja istniejącego wyjścia (zapraszanie znajomych, wybór ER)
+    path('wyjscie/<int:goingout_id>/', views.goingOut, name ='goingout'),
+
+    # tworzenie nowego wyjścia (przekierowanie do edycji wyjścia)
+    path('newgoingout/', views.newGoingOut, name ='newgoingout'),
 ]
 
 

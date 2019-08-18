@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+</head>
+
+<body>
+	{% include "application/main_menu.html" %}
+	
+	<p>
+		Osoby, które idą na to wydarzenie:
+		{% for participant in go.participants.all %}
+		<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
+		{% endfor %}
+	</p>
+
+	<p>Organizator: <strong>{{go.organisator.username}}</strong></p><br/>
+	
+	<form action="{% url 'application:goingout' go.id %}" method="post">
+		{% csrf_token %}
+		<label for="participant_name">Wpisz nazwę użytkownika, którego chcesz zaprosić: </label>
+		<input id="participant_name" type="text" name="participant_name" value="">
+		{% if participant_error_message %}
+			{{participant_error_message}}
+		{% endif %}
+		<br/>
+		<input type="submit" value="Zaproś">
+	</form>
+
+
+	<p>Proponowane escape roomy:</p>
+	
+</body>
+
+</html>
