@@ -20,9 +20,6 @@ def users(request):
 def buddies(request):
 	return HttpResponse("Tutaj będzie lista znajomych danego użytkownika.")
 
-def goodER(request):
-	return HttpResponse("Tutaj będzie lista ER, w których żadna z idących osób jeszcze nie była.")
-
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
@@ -87,14 +84,22 @@ def logout(request):
     return HttpResponseRedirect(reverse('application:index'))
 
 
+
 def escaperooms(request):
+
+	if 'user_id' not in request.session:
+		return render(request, 'application/escaperooms.html', {
+			'escaperooms': EscapeRoom.objects.all(),
+		})
+
 	me = User.objects.get(id=request.session['user_id'])
 
-	if 'escaperooms[]' in request.POST:
-		visitedList = {int(s) for s in request.POST.getlist('escaperooms[]')}
-		allEscapeRooms = EscapeRoom.objects.all()
-		me.visited.set([allEscapeRooms[i] for i in visitedList])
+	if request.POST:
+		#lista id odwiedzonych escape roomów
+		visitedIdList = [int(s) for s in request.POST.getlist('escaperooms[]')]
+		me.visited.set([EscapeRoom.objects.get(id = i) for i in visitedIdList])
 		me.save()
+		return HttpResponseRedirect(reverse('application:escaperooms'))
 
 	visited = me.visited.all()
 
@@ -109,18 +114,7 @@ def goingOut(request, goingout_id):
 
 	go = GoingOut.objects.get(id = goingout_id)
 
-	if 'participant_name' in request.POST:
-		try:
-			participant = User.objects.get(username = request.POST['participant_name'])
-		except User.DoesNotExist:
-			return render(request, 'application/goingout.html', {
-				'go': go,
-				'username': getUsername(request),
-				'participant_error_message': "Taki użytkownik nie istnieje.",
-			})
-		else:
-			go.participants.add(participant)
-			go.save()
+	
 
 	if 'chosen_escaperoom' in request.POST:
 		escapeRoom = EscapeRoom.objects.get(id = request.POST['chosen_escaperoom'])
@@ -138,12 +132,26 @@ def goingOut(request, goingout_id):
 	unvisited = EscapeRoom.objects.all().difference(visited_by_participants)
 
 
+	if 'participant_name' in request.POST:
+		try:
+			participant = User.objects.get(username = request.POST['participant_name'])
+		except User.DoesNotExist:
+			return render(request, 'application/goingout.html', {
+				'go': go,
+				'username': getUsername(request),
+				'participant_error_message': "Taki użytkownik nie istnieje.",
+				'unvisited': unvisited,
+			})
+		else:
+			go.participants.add(participant)
+			go.save()
+			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
+
+
 	return render(request, 'application/goingout.html', {
 		'go': go,
 		'username': getUsername(request),
-		'visited_by_participants': visited_by_participants,
 		'unvisited': unvisited,
-		'escaperoomy': EscapeRoom.objects.all(),
 	})
 
 
@@ -163,7 +171,11 @@ def newGoingOut(request):
 
 
 def planned(request):
-	me = User.objects.get(id=request.session['user_id'])
+
+	try:
+		me = User.objects.get(id=request.session['user_id'])
+	except (KeyError, User.DoesNotExist):
+		return HttpResponseRedirect(reverse('application:index'))
 
 	planned_goingouts = me.goingOuts.all()
 	return render(request, 'application/planned.html', {

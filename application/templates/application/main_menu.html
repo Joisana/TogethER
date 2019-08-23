@@ -2,11 +2,11 @@
 
 {% if username %}
 	<a href = "{% url 'application:buddies' %}">Znajomi</a>&nbsp
-	<a href = "{% url 'application:history' %}">Historia wizyt</a>&nbsp
 	<a href = "{% url 'application:newgoingout' %}">Zaproś znajomych do ER</a>&nbsp
 	<a href = "{% url 'application:planned' %}">Planowane wyjścia</a>&nbsp
+	<a href = "{% url 'application:history' %}">Historia wizyt</a>&nbsp
 
-	Zalogowany jako: <strong>{{username}}</strong>
+	Zalogowany jako <strong>{{username}}</strong>
 	<a href = "{% url 'application:logout' %}">WYLOGUJ</a>
 {% else %}
 	<a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a>&nbsp

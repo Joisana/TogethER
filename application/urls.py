@@ -20,9 +20,6 @@ urlpatterns = [
     # znajomi gracze (można przeglądać, dodawać i usuwać ze znajomych)
     path('znajomi/', views.buddies, name = 'buddies'),
 
-    # dobre pokoje (lista ER, w których żaden ze znajomych nie był)
-    path('dobreER/', views.goodER, name = 'goodER'),
-
     # historia odwiedzin
     # dotychczasowe wyjścia ze znajomymi (widać, w jakich pokojach się było i z kim)
     path('historia/', views.history, name = 'history'),

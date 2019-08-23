@@ -5,20 +5,36 @@
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'application/style.css' %}">
 </head>
+
 <body>
 	{% include "application/main_menu.html" %}
-	<strong> Lista odwiedzonych escape roomów </strong>
-	<p>Zaznacz pokoje, które odwiedziłeś.</p>
+	
+	{% if not username %}
+		<strong> Lista escape roomów </strong>
+			<ul>
+				{% for escaperoom in escaperooms %}
+				<li> {{escaperoom.name}}</li>
+				{% endfor %}
+			</ul>
 
-	<form action="{% url 'application:escaperooms' %}" method="post">
-		{% csrf_token %}
-		{% for escaperoom in escaperooms %}
-		<label><input type="checkbox" name="escaperooms[]" value={{forloop.counter0}} {% if escaperoom in visited %}checked{% endif %}> {{escaperoom.name}} </label> (<em>zobacz na LockMe</em>)<br/>
-		{% endfor %}
-		<br/>
-		<input type="submit" value="Zapisz zmiany">
-	</form>
+	{% else %}
+		<strong> Lista odwiedzonych escape roomów </strong>
+		<p>Zaznacz pokoje, które odwiedziłeś.</p>
 
+		<form action="{% url 'application:escaperooms' %}" method="post">
+			{% csrf_token %}
+			{% for escaperoom in escaperooms %}
+				<label>
+					<input type="checkbox" name="escaperooms[]" value={{escaperoom.id}}
+						{% if escaperoom in visited %}checked{% endif %}>
+					{{escaperoom.name}}
+				</label>
+			(<em>zobacz na LockMe</em>)<br/>
+			{% endfor %}
+			<br/>
+			<input type="submit" value="Zapisz zmiany">
+		</form>
+	{% endif %}
 </body>
 
 </html>
