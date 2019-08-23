@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'application/style.css' %}">
+</head>
+<body>
+	{% include "application/main_menu.html" %}
+	<strong> Tutaj będą planowane escape roomy</strong>
+	<br/>
+	<br/>
+
+	<p>
+		Planowane wyjścia do escape roomów: <br/><br/>
+		<div style='ramka_do_wyjsc'>
+			{% for goingout in planned_goingouts %}
+				<ul>
+					<li>Uczestnicy:
+						{% for participant in goingout.participants.all %}
+						<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
+						{% endfor %}
+					<li>Organizator: <strong>{{ goingout.organisator.username }}</strong></li>
+					<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
+				</ul>
+			{% endfor %}
+		</div>
+	</p>
+
+</body>
+</html>

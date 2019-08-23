@@ -10,7 +10,7 @@ class EscapeRoom(models.Model):
 class User(models.Model):
 	username = models.CharField(max_length = 32)
 	passwordHash = models.CharField(max_length = 255)
-	visited = models.ManyToManyField(EscapeRoom)
+	visited = models.ManyToManyField(EscapeRoom, related_name="visitors") # osoby, które odwiedziły dany escape room
 
 	def __str__(self):
 		return '"' + self.username + '"'

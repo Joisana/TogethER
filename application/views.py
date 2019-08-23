@@ -26,9 +26,6 @@ def goodER(request):
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
-def planned(request):
-	return HttpResponse("Tutaj będą planowane pokoje.")
-
 def event(request):
 	return HttpResponse("Tutaj będzie link do wydarzenia (wyjścia do ER) z informacją o pokoju, dacie, godzinie, kto idzie itp.")
 
@@ -91,15 +88,15 @@ def logout(request):
 
 
 def escaperooms(request):
-	user = User.objects.get(id=request.session['user_id'])
+	me = User.objects.get(id=request.session['user_id'])
 
 	if 'escaperooms[]' in request.POST:
 		visitedList = {int(s) for s in request.POST.getlist('escaperooms[]')}
 		allEscapeRooms = EscapeRoom.objects.all()
-		user.visited.set([allEscapeRooms[i] for i in visitedList])
-		user.save()
+		me.visited.set([allEscapeRooms[i] for i in visitedList])
+		me.save()
 
-	visited = user.visited.all()
+	visited = me.visited.all()
 
 	return render(request, 'application/escaperooms.html', {
 		'escaperooms': EscapeRoom.objects.all(),
@@ -125,11 +122,28 @@ def goingOut(request, goingout_id):
 			go.participants.add(participant)
 			go.save()
 
+	if 'chosen_escaperoom' in request.POST:
+		escapeRoom = EscapeRoom.objects.get(id = request.POST['chosen_escaperoom'])
+		go.decision = escapeRoom
+		go.save()
+
+
+	visited_by_participants = EscapeRoom.objects.none() # pusty queryset
+
 	
+	# escape roomy, w których chociaż jeden uczestnik wydarzenia już był
+	for participant in go.participants.all():
+		visited_by_participants = visited_by_participants.union(participant.visited.all())
+	
+	unvisited = EscapeRoom.objects.all().difference(visited_by_participants)
+
 
 	return render(request, 'application/goingout.html', {
 		'go': go,
 		'username': getUsername(request),
+		'visited_by_participants': visited_by_participants,
+		'unvisited': unvisited,
+		'escaperoomy': EscapeRoom.objects.all(),
 	})
 
 
@@ -146,3 +160,13 @@ def newGoingOut(request):
 	go.save()
 
 	return HttpResponseRedirect("/wyjscie/" + str(go.pk))
+
+
+def planned(request):
+	me = User.objects.get(id=request.session['user_id'])
+
+	planned_goingouts = me.goingOuts.all()
+	return render(request, 'application/planned.html', {
+		'planned_goingouts': planned_goingouts.all(),
+		'username': me.username,
+	})

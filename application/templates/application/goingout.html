@@ -31,7 +31,26 @@
 	</form>
 
 
-	<p>Proponowane escape roomy:</p>
+	<p>
+		Proponowane escape roomy:<br/>
+		<form action="{% url 'application:goingout' go.id %}" method="post">
+			{% csrf_token %}
+			{% for escaperoom in unvisited.all %}
+				<input type="radio" name="chosen_escaperoom" id="escaperoom{{forloop.counter}}" 
+					value="{{ escaperoom.id }}"  {% if go.decision == escaperoom %} checked {% endif %}>
+				<label for="escaperoom{{ forloop.counter }}">{{escaperoom.name}}</label>
+			{% empty %}
+				Brak escape roomów, do których wszyscy mogą pójść :( <br/>
+			{% endfor %}
+			<br>
+			<input type="submit" value="Wybierz">
+		</form>
+		
+		<form action="{% url 'application:goingout' go.id %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Zmień decyzję">
+		</form>
+	</p>
 	
 </body>
 
