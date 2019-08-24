@@ -27,9 +27,6 @@ urlpatterns = [
     #planowane wyjścia (zarówno te, które mają już decyzję, jak i te, które jeszcze czekają na decyzję)
     path('planowane/', views.planned, name = 'planned'),
 
-    # gotowe wydarzenie
-    path('wydarzenie/', views.event, name = 'event'),
-
     # ekran rejestracji użytkownika
     path('rejestracja/', views.registration, name = 'registration'),
 

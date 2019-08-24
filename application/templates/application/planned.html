@@ -8,21 +8,33 @@
 <body>
 	{% include "application/main_menu.html" %}
 
-	<p>
-		Planowane wyjścia do escape roomów: <br/><br/>
-		<div style='ramka_do_wyjsc'>
+
+	Planowane wyjścia do escape roomów: <br/><br/>
+
+	<div style='ramka_do_wyjsc'></div>
+		<table>
 			{% for goingout in planned_goingouts %}
-				<ul>
-					<li>Uczestnicy:
-						{% for participant in goingout.participants.all %}
-						<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
-						{% endfor %}
-					<li>Organizator: <strong>{{ goingout.organisator.username }}</strong></li>
-					<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
-				</ul>
+			<tr>
+				<td>
+					<ul>
+						<li>Uczestnicy:
+							{% for participant in goingout.participants.all %}
+							<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
+							{% endfor %}
+						<li>Organizator: <strong>{{ goingout.organisator.username }}</strong></li>
+						<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
+					</ul>
+				</td>
+				<td>
+					<form action="{% url 'application:goingout' goingout.id %}" method="post">
+						{% csrf_token %}
+						<input type="submit" value="Edytuj wyjście">
+					</form>
+				</td>
+			</tr>
 			{% endfor %}
-		</div>
-	</p>
+		</table>
+	</div>
 
 </body>
 </html>

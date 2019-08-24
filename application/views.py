@@ -23,9 +23,6 @@ def buddies(request):
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
-def event(request):
-	return HttpResponse("Tutaj będzie link do wydarzenia (wyjścia do ER) z informacją o pokoju, dacie, godzinie, kto idzie itp.")
-
 def registration(request):
 
 	# jeśli użytkownik pierwszy raz otwiera stronę z rejestracją (przed wysłaniem formularza)
