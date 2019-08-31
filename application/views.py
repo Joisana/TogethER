@@ -5,14 +5,14 @@ from django.urls import reverse
 
 from .models import User, EscapeRoom, GoingOut
 
-def getUsername (request):
+def getMe(request):
 	try:
-		return User.objects.get(id=request.session['user_id']).username
+		return User.objects.get(id=request.session['user_id'])
 	except (KeyError, User.DoesNotExist):
-		return ''
+		return None
 
 def index(request):
-	return render(request, 'application/index.html', {'username': getUsername(request)})
+	return render(request, 'application/index.html', {'me': getMe(request)})
 
 def users(request):
 	return HttpResponse("Tutaj będzie lista wszystkich użytkowników.")
@@ -99,16 +99,15 @@ def escaperooms(request):
 
 	return render(request, 'application/escaperooms.html', {
 		'escaperooms': EscapeRoom.objects.all(),
-		'username': getUsername(request),
+		'me': getMe(request),
 		'visited': visited,
 	})
 
 
 def goingOut(request, goingout_id):
 
-	try:
-		me = User.objects.get(id=request.session['user_id'])
-	except:
+	me = getMe(request)
+	if not me:
 		return render(request, 'application/index.html', {})
 
 	go = GoingOut.objects.get(id = goingout_id)
@@ -135,7 +134,7 @@ def goingOut(request, goingout_id):
 		except User.DoesNotExist:
 			return render(request, 'application/goingout.html', {
 				'go': go,
-				'username': getUsername(request),
+				'me': getMe(request),
 				'participant_error_message': "Taki użytkownik nie istnieje.",
 				'unvisited': unvisited,
 				'me': me,
@@ -146,19 +145,16 @@ def goingOut(request, goingout_id):
 			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
 
 
-	# TUTAJ UZUPEŁNIĆ
+	# TUTAJ COŚ NIE DZIAŁA
 	if 'delete_event' in request.POST:
-		go.decision = None
-		go.save()
-		return render(request, 'application/goingout.html', {
-			'username': getUsername(request),
-			'me': me,
-		})
+		GoingOut.objects.get(id = goingout_id)
+		print(go.participants)
+		#go.delete()
+		return HttpResponseRedirect(reverse('application:planned'))
 
 
 	return render(request, 'application/goingout.html', {
 		'go': go,
-		'username': getUsername(request),
 		'unvisited': unvisited,
 		'me': me,
 	})
@@ -167,9 +163,8 @@ def goingOut(request, goingout_id):
 def newGoingOut(request):
 	go = GoingOut()
 
-	try:
-		go.organisator = User.objects.get(id=request.session['user_id'])
-	except (KeyError, User.DoesNotExist):
+	go.organisator = getMe(request)
+	if not go.organisator:
 		return HttpResponseRedirect(reverse('application:index'))
 
 	go.save()
@@ -181,22 +176,20 @@ def newGoingOut(request):
 
 def planned(request):
 
-	try:
-		me = User.objects.get(id=request.session['user_id'])
-	except (KeyError, User.DoesNotExist):
+	me = getMe(request)
+	if not me:
 		return HttpResponseRedirect(reverse('application:index'))
 
 	planned_goingouts = me.goingOuts.all()
 	return render(request, 'application/planned.html', {
 		'planned_goingouts': planned_goingouts.all(),
-		'username': me.username,
+		'me': me,
 	})
 
 def buddies(request):
 	
-	try:
-		me = User.objects.get(id=request.session['user_id'])
-	except (KeyError, User.DoesNotExist):
+	me = getMe(request)
+	if not me:
 		return HttpResponseRedirect(reverse('application:index'))
 
 	if 'buddy_name' in request.POST:
@@ -205,13 +198,11 @@ def buddies(request):
 			if buddy == me:
 				return render(request, 'application/buddies.html', {
 					'me_error_message': "Niestety nie możesz sam siebie dodać do znajomych :(",
-					'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
 					'me': me,
 				})
 		except User.DoesNotExist:
 			return render(request, 'application/buddies.html', {
 				'buddy_error_message': "Taki użytkownik nie istnieje.",
-				'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
 				'me': me,
 			})
 		me.buddies.add(buddy)
@@ -219,6 +210,10 @@ def buddies(request):
 		return HttpResponseRedirect(reverse('application:buddies'))
 
 	return render(request, 'application/buddies.html', {
-		'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
 		'me': me,
+	})
+
+def profile(request, user_id):
+	return render(request, 'application/profile.html', {
+		'me': getMe(request),
 	})

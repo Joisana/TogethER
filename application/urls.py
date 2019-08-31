@@ -41,6 +41,9 @@ urlpatterns = [
 
     # tworzenie nowego wyjścia (przekierowanie do edycji wyjścia)
     path('newgoingout/', views.newGoingOut, name ='newgoingout'),
+
+    # profil użytkownika (dowolnego)
+    path('profil/<int:user_id>/', views.profile, name ='profile'),
 ]
 
 

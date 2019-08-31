@@ -1,6 +1,6 @@
 <a href = "{% url 'application:escaperooms' %}">Lista ER</a>&nbsp
 
-{% if username %}
+{% if me %}
 	<a href = "{% url 'application:buddies' %}">Znajomi</a>&nbsp
 
 	{% comment %} 
@@ -10,7 +10,9 @@
 	<a href = "{% url 'application:planned' %}">Planowane wyjścia</a>&nbsp
 	<a href = "{% url 'application:history' %}">Historia wizyt</a>&nbsp
 
-	Zalogowany jako <strong>{{username}}</strong>
+	<a href = "{% url 'application:profile' me.id %}">Mój profil</a>&nbsp
+
+	Zalogowany jako <strong>{{me.username}}</strong>
 	<a href = "{% url 'application:logout' %}">WYLOGUJ</a>
 {% else %}
 	<a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a>&nbsp
