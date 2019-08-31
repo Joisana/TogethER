@@ -1,22 +1,24 @@
-<a href = "{% url 'application:escaperooms' %}">Lista ER</a>&nbsp
+<ul class="menu">
+
+	<li class="menu"><a href = "{% url 'application:escaperooms' %}">Lista ER</a></li>&nbsp
+
 
 {% if me %}
-	<a href = "{% url 'application:buddies' %}">Znajomi</a>&nbsp
+	<li class="menu"><a href = "{% url 'application:buddies' %}">Znajomi</a></li>&nbsp
 
 	{% comment %} 
-	<a href = "{% url 'application:newgoingout' %}">Zaproś znajomych do ER</a>&nbsp
+	<li class="menu"><a href = "{% url 'application:newgoingout' %}">Zaproś znajomych do ER</a></li>&nbsp
 	{% endcomment %}
 
-	<a href = "{% url 'application:planned' %}">Planowane wyjścia</a>&nbsp
-	<a href = "{% url 'application:history' %}">Historia wizyt</a>&nbsp
+	<li class="menu"><a href = "{% url 'application:planned' %}">Planowane wyjścia</a></li>&nbsp
+	<li class="menu"><a href = "{% url 'application:history' %}">Historia wizyt</a></li>&nbsp
 
-	<a href = "{% url 'application:profile' me.id %}">Mój profil</a>&nbsp
+	<li class="menu"><a href = "{% url 'application:profile' me.id %}">Mój profil</a></li>&nbsp
 
 	Zalogowany jako <strong>{{me.username}}</strong>
-	<a href = "{% url 'application:logout' %}">WYLOGUJ</a>
+	<li class="menu"><a href = "{% url 'application:logout' %}">WYLOGUJ</a></li>
 {% else %}
-	<a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a>&nbsp
-	<a href = "{% url 'application:login' %}">ZALOGUJ</a>
+	<li class="menu"><a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a></li>&nbsp
+	<li class="menu"><a href = "{% url 'application:login' %}">ZALOGUJ</a></li>
 {% endif %}
-<br/><br/>
-
+</ul><br/><br/><br/><br/>

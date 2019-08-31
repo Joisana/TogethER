@@ -1,3 +1,33 @@
 body {
-  background-color: lightblue;
+  background-color: #ffffff;
+  margin: 10px;
 }
+
+ul.menu {
+  border-style: dotted;
+  border-width: 5px;
+  border-color: black;
+
+  list-style-type: none;
+  margin: 0px;
+  padding: 5px;
+  overflow: hidden;
+  background-color: #ede89d;
+  position: fixed;
+  top: 0;
+  width: 90%;
+}
+
+li.menu {
+  float: left;
+}
+
+li.menu a {
+  display: inline;
+  padding: 20px;
+}
+
+/*
+li a:hover {
+  background-color: #111;
+}*/
