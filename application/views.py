@@ -17,9 +17,6 @@ def index(request):
 def users(request):
 	return HttpResponse("Tutaj będzie lista wszystkich użytkowników.")
 
-def buddies(request):
-	return HttpResponse("Tutaj będzie lista znajomych danego użytkownika.")
-
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
@@ -109,9 +106,12 @@ def escaperooms(request):
 
 def goingOut(request, goingout_id):
 
-	go = GoingOut.objects.get(id = goingout_id)
+	try:
+		me = User.objects.get(id=request.session['user_id'])
+	except:
+		return render(request, 'application/index.html', {})
 
-	
+	go = GoingOut.objects.get(id = goingout_id)
 
 	if 'chosen_escaperoom' in request.POST:
 		escapeRoom = EscapeRoom.objects.get(id = request.POST['chosen_escaperoom'])
@@ -138,6 +138,7 @@ def goingOut(request, goingout_id):
 				'username': getUsername(request),
 				'participant_error_message': "Taki użytkownik nie istnieje.",
 				'unvisited': unvisited,
+				'me': me,
 			})
 		else:
 			go.participants.add(participant)
@@ -145,10 +146,21 @@ def goingOut(request, goingout_id):
 			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
 
 
+	# TUTAJ UZUPEŁNIĆ
+	if 'delete_event' in request.POST:
+		go.decision = None
+		go.save()
+		return render(request, 'application/goingout.html', {
+			'username': getUsername(request),
+			'me': me,
+		})
+
+
 	return render(request, 'application/goingout.html', {
 		'go': go,
 		'username': getUsername(request),
 		'unvisited': unvisited,
+		'me': me,
 	})
 
 
@@ -178,4 +190,35 @@ def planned(request):
 	return render(request, 'application/planned.html', {
 		'planned_goingouts': planned_goingouts.all(),
 		'username': me.username,
+	})
+
+def buddies(request):
+	
+	try:
+		me = User.objects.get(id=request.session['user_id'])
+	except (KeyError, User.DoesNotExist):
+		return HttpResponseRedirect(reverse('application:index'))
+
+	if 'buddy_name' in request.POST:
+		try:
+			buddy = User.objects.get(username = request.POST['buddy_name'])
+			if buddy == me:
+				return render(request, 'application/buddies.html', {
+					'me_error_message': "Niestety nie możesz sam siebie dodać do znajomych :(",
+					'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
+					'me': me,
+				})
+		except User.DoesNotExist:
+			return render(request, 'application/buddies.html', {
+				'buddy_error_message': "Taki użytkownik nie istnieje.",
+				'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
+				'me': me,
+			})
+		me.buddies.add(buddy)
+		me.save()
+		return HttpResponseRedirect(reverse('application:buddies'))
+
+	return render(request, 'application/buddies.html', {
+		'username': me.username, #żeby się generowało menu dla zalogowanego użytkownika
+		'me': me,
 	})

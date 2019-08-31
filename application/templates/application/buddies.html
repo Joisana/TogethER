@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'application/style.css' %}">
+</head>
+
+<body>
+	{% include "application/main_menu.html" %}
+
+<form action="{% url 'application:buddies' %}" method="post">
+	{% csrf_token %}
+	<label for="buddy_name">Wpisz nazwę użytkownika, którego chcesz zaprosić do znajomych: </label>
+	<input id="buddy_name" type="text" name="buddy_name" value="">
+	{% if buddy_error_message %}
+		{{buddy_error_message}}
+	{% endif %}
+	{% if me_error_message %}
+		{{me_error_message}}
+	{% endif %}
+	<br/>
+	<input type="submit" value="Zaproś">
+</form>
+
+<p>Twoi znajomi:
+	{% for buddy in me.buddies.all %}
+		<strong>{{buddy.username}}</strong>{% if not forloop.last %}, {% endif %}
+	{% endfor %}
+</p>
+
+</body>
+</html>

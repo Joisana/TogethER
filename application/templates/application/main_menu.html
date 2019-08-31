@@ -2,7 +2,11 @@
 
 {% if username %}
 	<a href = "{% url 'application:buddies' %}">Znajomi</a>&nbsp
+
+	{% comment %} 
 	<a href = "{% url 'application:newgoingout' %}">Zaproś znajomych do ER</a>&nbsp
+	{% endcomment %}
+
 	<a href = "{% url 'application:planned' %}">Planowane wyjścia</a>&nbsp
 	<a href = "{% url 'application:history' %}">Historia wizyt</a>&nbsp
 

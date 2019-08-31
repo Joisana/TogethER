@@ -5,9 +5,15 @@
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'application/style.css' %}">
 </head>
+
 <body>
 	{% include "application/main_menu.html" %}
 
+	<form action="{% url 'application:newgoingout' %}" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Utwórz nowe wyjście">
+	</form>
+	<br/>
 
 	Planowane wyjścia do escape roomów: <br/><br/>
 

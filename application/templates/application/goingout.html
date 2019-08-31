@@ -27,6 +27,13 @@
 			{{participant_error_message}}
 		{% endif %}
 		<br/>
+		lub wybierz znajomego z listy:
+		<select name="participant_name">
+			{% for user in me.buddies.all %}
+				<option>{{user.username}}</option>
+			{% endfor %}
+		</select>
+		<br/>
 		<input type="submit" value="Zaproś">
 	</form>
 
@@ -48,7 +55,14 @@
 		
 		<form action="{% url 'application:goingout' go.id %}" method="post">
 			{% csrf_token %}
-			<input type="submit" value="Zmień decyzję">
+			<input type="submit" value="Wycofaj decyzję">
+		</form>
+
+		<br/>
+		<br/>
+		<form action="{% url 'application:planned' %}" method="post">
+			{% csrf_token %}
+			<input type="submit" name="delete_event" value="Usuń wydarzenie">
 		</form>
 	</p>
 	

@@ -8,7 +8,7 @@
 
 <body>
     {% include "application/main_menu.html" %}
-    {% if error_message_exists %}<p>Już istnieje użytkownik o nazwie <strong>{{ error_message_exists }}</strong>.</p>{% endif %}
+    {% if error_message_exists %}<p>Już istnieje użytkownik <strong>{{ error_message_exists }}</strong>.</p>{% endif %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
     <form action="{% url 'application:registration' %}" method="post">
