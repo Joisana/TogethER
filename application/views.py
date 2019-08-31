@@ -88,11 +88,12 @@ def escaperooms(request):
 
 	me = User.objects.get(id=request.session['user_id'])
 
-	if request.POST:
+	if 'escaperooms[]' in request.POST:
 		#lista id odwiedzonych escape roomów
 		visitedIdList = [int(s) for s in request.POST.getlist('escaperooms[]')]
 		me.visited.set([EscapeRoom.objects.get(id = i) for i in visitedIdList])
 		me.save()
+
 		return HttpResponseRedirect(reverse('application:escaperooms'))
 
 	visited = me.visited.all()
@@ -101,6 +102,7 @@ def escaperooms(request):
 		'escaperooms': EscapeRoom.objects.all(),
 		'me': getMe(request),
 		'visited': visited,
+		'which_escape_rooms': request.POST.get('which_escape_rooms', 'all'),
 	})
 
 
