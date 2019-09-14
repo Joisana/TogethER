@@ -20,14 +20,36 @@ ul.menu {
 
 li.menu {
   float: left;
+  text-decoration: none;
+
 }
 
 li.menu a {
   display: inline;
   padding: 20px;
+  text-decoration: none;
 }
 
-/*
-li a:hover {
-  background-color: #111;
-}*/
+li.menu a:link {
+  color: red;
+  text-decoration: none;
+}
+
+/* visited link */
+li.menu a:visited {
+  color: green;
+  text-decoration: none;
+}
+
+/* mouse over link */
+li.menu a:hover {
+  background-color: #1111;
+  color: hotpink;
+  text-decoration: none;
+}
+
+/* selected link */
+li.menu a:active {
+  color: blue;
+  text-decoration: none;
+}
