@@ -15,10 +15,10 @@
 
 	<li class="menu"><a href = "{% url 'application:profile' me.id %}">Mój profil</a></li>&nbsp
 
-	Zalogowany jako <strong>{{me.username}}</strong>
-	<li class="menu"><a href = "{% url 'application:logout' %}">WYLOGUJ</a></li>
+	<li class="menu right">Zalogowany jako <strong>{{me.username}}</strong></li>
+	<li class="menu right"><a href = "{% url 'application:logout' %}">WYLOGUJ</a></li>
 {% else %}
-	<li class="menu"><a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a></li>&nbsp
-	<li class="menu"><a href = "{% url 'application:login' %}">ZALOGUJ</a></li>
+	<li class="menu right"><a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a></li>&nbsp
+	<li class="menu right"><a href = "{% url 'application:login' %}">ZALOGUJ</a></li>
 {% endif %}
 </ul><br/><br/><br/><br/>

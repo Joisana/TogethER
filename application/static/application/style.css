@@ -19,15 +19,51 @@ ul.menu {
 }
 
 li.menu {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-color: white;
   float: left;
+  text-decoration: none;
+  padding: 5px;
 }
 
-li.menu a {
-  display: inline;
-  padding: 20px;
+li.menu a{
+  font-weight: bold;
 }
 
-/*
-li a:hover {
-  background-color: #111;
-}*/
+li.menu a:link {
+  margin-right: 10px;
+  color: red;
+  text-decoration: none;
+}
+
+/* visited link */
+li.menu a:visited {
+  padding: 5px;
+  color: black;
+  text-decoration: none;
+}
+
+/* mouse over link */
+li.menu a:hover {
+  padding: 5px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+}
+
+/* selected link */
+li.menu a:active {
+  padding: 5px;
+  color: white;
+  text-decoration: none;
+}
+
+li.right{
+  float: right;
+  text-decoration: none;
+  padding: 5px;
+}
+
+li.right a{
+  text-decoration: none;
+}
