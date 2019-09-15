@@ -3,7 +3,8 @@ from django.db import models
 class EscapeRoom(models.Model):
 	name = models.CharField(max_length = 255)
 	description = models.CharField(max_length = 255)
-	company = models.CharField(max_length = 255) #firma
+	company = models.CharField(max_length = 255) # firma
+	url = models.CharField(max_length = 1024) # link do LockMe
 	def __str__(self):
 		return '"' + self.name + '"'
 

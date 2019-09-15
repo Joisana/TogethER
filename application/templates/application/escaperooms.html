@@ -48,7 +48,7 @@
 							{% if escaperoom in visited %}checked{% endif %}>
 						{{escaperoom.name}}
 					</label>
-					(<em>zobacz na LockMe</em>)<br/>
+					(<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)<br/>
 				</div>
 			{% endfor %}
 			<br/>

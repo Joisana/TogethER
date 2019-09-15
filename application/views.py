@@ -85,8 +85,8 @@ def escaperooms(request):
 
 	me = User.objects.get(id=request.session['user_id'])
 
-	if 'escaperooms_changes' in request.POST:
-		#lista id odwiedzonych escape roomów
+	if 'escaperooms_changes' in request.POST: # jeśli kliknięto "Zapisz zmiany"
+		# lista id odwiedzonych escape roomów
 		visitedIdList = [int(s) for s in request.POST.getlist('escaperooms[]')]
 		me.visited.set([EscapeRoom.objects.get(id = i) for i in visitedIdList])
 		me.save()
@@ -142,11 +142,15 @@ def goingOut(request, goingout_id):
 			go.save()
 			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
 
-
-	# TUTAJ COŚ NIE DZIAŁA
 	if 'delete_event' in request.POST:
 		go.delete()
 		return HttpResponseRedirect(reverse('application:planned'))
+
+
+	if 'reset_decision' in request.POST:
+		go.decision = None
+		go.save()
+		return HttpResponseRedirect(reverse('application:goingout', kwargs={'goingout_id': goingout_id}))
 
 
 	return render(request, 'application/goingout.html', {

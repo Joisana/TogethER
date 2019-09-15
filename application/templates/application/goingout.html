@@ -29,6 +29,7 @@
 		<br/>
 		lub wybierz znajomego z listy:
 		<select name="participant_name">
+			<option value="---" selected>---</option> {% comment %} TERAZ DOPISANE {% endcomment %}
 			{% for user in me.buddies.all %}
 				<option>{{user.username}}</option>
 			{% endfor %}
@@ -55,7 +56,7 @@
 		
 		<form action="{% url 'application:goingout' go.id %}" method="post">
 			{% csrf_token %}
-			<input type="submit" value="Wycofaj decyzję">
+			<input type="submit" name="reset_decision" value="Jeszcze się nie zdecydowałem">
 		</form>
 
 		<br/>

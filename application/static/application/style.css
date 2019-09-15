@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(32, 15, 1);
+  background-color: rgb(58, 27, 3); /* na wypadek, gdyby obrazek nie działał */
   margin: 10px;
   color: white;
   background-image: url('./tlo.jpg');
