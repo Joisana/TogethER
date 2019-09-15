@@ -1,9 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.urls import reverse
 
-from .models import User, EscapeRoom, GoingOut
+from .models import EscapeRoom, GoingOut, User
+
 
 def getMe(request):
 	try:
@@ -59,16 +60,12 @@ def login(request):
 
 	try:
 		user = User.objects.get(username=request.POST['username'])
-	except:
-		return render(request, 'application/login.html', {'error_message': "Nieprawidłowy user"})
-
-	
-	if user.passwordHash == request.POST['password']:
+		if user.passwordHash != request.POST['password']:
+			raise Exception('Invalid password')
 		request.session['user_id'] = user.id
 		return HttpResponseRedirect(reverse('application:index'))
-	else:
-		return render(request, 'application/login.html', {'error_message': "Nieprawidłowe hasło."})
-
+	except:
+		return render(request, 'application/login.html', {'error_message': "Nieprawidłowa nazwa użytkownika lub hasło."})
 
 def logout(request):
     try:
@@ -149,9 +146,7 @@ def goingOut(request, goingout_id):
 
 	# TUTAJ COŚ NIE DZIAŁA
 	if 'delete_event' in request.POST:
-		GoingOut.objects.get(id = goingout_id)
-		print(go.participants)
-		#go.delete()
+		go.delete()
 		return HttpResponseRedirect(reverse('application:planned'))
 
 
@@ -216,6 +211,13 @@ def buddies(request):
 	})
 
 def profile(request, user_id):
+
+	try:
+		user = User.objects.get(id = user_id)
+	except User.DoesNotExist:
+		raise Http404("Użytkownik nie istnieje.")
+
 	return render(request, 'application/profile.html', {
 		'me': getMe(request),
+		'user': user,
 	})
