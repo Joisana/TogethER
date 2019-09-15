@@ -60,7 +60,7 @@
 
 		<br/>
 		<br/>
-		<form action="{% url 'application:planned' %}" method="post">
+		<form action="{% url 'application:goingout' go.id %}" method="post">
 			{% csrf_token %}
 			<input type="submit" name="delete_event" value="Usuń wydarzenie">
 		</form>

@@ -1,6 +1,10 @@
 body {
-  background-color: #ffffff;
+  background-color: rgb(32, 15, 1);
   margin: 10px;
+  color: white;
+  background-image: url('./tlo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 ul.menu {
@@ -20,7 +24,7 @@ ul.menu {
 
 li.menu {
   font-family: Verdana, Helvetica, sans-serif;
-  font-color: white;
+  color: purple;
   float: left;
   text-decoration: none;
   padding: 5px;

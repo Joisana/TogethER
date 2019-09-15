@@ -85,7 +85,7 @@ def escaperooms(request):
 
 	me = User.objects.get(id=request.session['user_id'])
 
-	if 'escaperooms[]' in request.POST:
+	if 'escaperooms_changes' in request.POST:
 		#lista id odwiedzonych escape roomów
 		visitedIdList = [int(s) for s in request.POST.getlist('escaperooms[]')]
 		me.visited.set([EscapeRoom.objects.get(id = i) for i in visitedIdList])
@@ -133,7 +133,6 @@ def goingOut(request, goingout_id):
 		except User.DoesNotExist:
 			return render(request, 'application/goingout.html', {
 				'go': go,
-				'me': getMe(request),
 				'participant_error_message': "Taki użytkownik nie istnieje.",
 				'unvisited': unvisited,
 				'me': me,

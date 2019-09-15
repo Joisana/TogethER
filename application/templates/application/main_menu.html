@@ -6,12 +6,11 @@
 {% if me %}
 	<li class="menu"><a href = "{% url 'application:buddies' %}">Znajomi</a></li>&nbsp
 
-	{% comment %} 
-	<li class="menu"><a href = "{% url 'application:newgoingout' %}">Zaproś znajomych do ER</a></li>&nbsp
-	{% endcomment %}
-
 	<li class="menu"><a href = "{% url 'application:planned' %}">Planowane wyjścia</a></li>&nbsp
+	
+	{% comment %} 
 	<li class="menu"><a href = "{% url 'application:history' %}">Historia wizyt</a></li>&nbsp
+	{% endcomment %}
 
 	<li class="menu"><a href = "{% url 'application:profile' me.id %}">Mój profil</a></li>&nbsp
 

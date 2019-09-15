@@ -38,6 +38,7 @@
 
 		<form action="{% url 'application:escaperooms' %}" method="post">
 			{% csrf_token %}
+			<input type="hidden" name="escaperooms_changes" value="1">
 
 			{% for escaperoom in escaperooms %}
 				<div {% if which_escape_rooms == 'unvisited' and escaperoom in visited %}hidden{% endif %}
