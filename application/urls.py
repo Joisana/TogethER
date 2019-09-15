@@ -45,24 +45,3 @@ urlpatterns = [
     # profil użytkownika (dowolnego)
     path('profil/<int:user_id>/', views.profile, name ='profile'),
 ]
-
-
-
-
-''' POMYSŁY
-
-W MIARĘ REALNE
-- ranking pokojów, do których chce się pójść (po widoku 'pasujace' każdy by głosował na kilka swoich ulubionych pokojów z listy)
-- godziny otwarcia escape roomów + każdy uczestnik by dodatkowo określał, w jakich godzinach i dniach może iść (apka by zwracała tylko pasujące ER-y)
-
-
-RACZEJ NIEREALNE
-- umawianie się z obcymi ludźmi (wtedy wybiera się pokój, do którego chce się iść i pasujące godziny i dni, a apka przydziela nam towarzystwo)
-- integracja bazy danych z LockMe (zaciąganie danych o ER)
-- tagi do escape roomów (każdy użytkownik zaznacza, jakiego typu pokoje go interesują)
-
-
-ZUPEŁNIE NIEREALNE
-- każdy uczestnik deklaruje, jak daleko może jechać i apka wybiera tylko ER w dogodnej dla wszystkich odległości (+ integracja z JakDojadę)
-    --> mogłoby to działać nawet dla jednego użytkownika (jeśli np. przyjechał do obcego miasta i chce szybko wybrać ER, który jest blisko i jest akurat otwarty)
-'''

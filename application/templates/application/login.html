@@ -9,7 +9,7 @@
 
 <body>
 	{% include "application/main_menu.html" %}
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	
 	<form action="{% url 'application:login' %}" method="post">
 		{% csrf_token %}
 		<label for="username">Nazwa użytkownika: </label>
@@ -22,6 +22,10 @@
 		<br/>
 		<input type="submit" value="Zaloguj">
 	</form>
+
+	{% if error_message %}
+		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
 </body>
 
 </html>
