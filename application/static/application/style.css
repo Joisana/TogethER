@@ -96,7 +96,11 @@ div.page{
   width: 50%;
   align: center;
   text-align: center;
-  position: top;
+  position: relative;
+  left: 25%;
+
+  padding: 5px;
+
   background-color: #ede89d;
   background-image: none;
 
