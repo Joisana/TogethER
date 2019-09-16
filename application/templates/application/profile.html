@@ -13,7 +13,11 @@
 		{% if user == me %}
 			<p>TWÓJ PROFIL</p>
 			</p>Napisz coś o sobie.</p>
-			<p>Zmień hasło.</p>
+			<form action="{% url 'application:profile' user.id %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="change_password">
+				<input type="submit" value="Zmień hasło">
+			</form>
 
 		{% elif user != me %}
 			<p>Profil użytkownika <strong>{{user.username}}</strong></p>
