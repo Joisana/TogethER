@@ -12,20 +12,43 @@
 
 	{% if user == me %}
 		<p>TWÓJ PROFIL</p>
-		</p>Napisz coś o sobie.</p>
+		<p>Napisz coś o sobie.</p>
 		<p>Zmień hasło.</p>
 
 	{% elif user != me %}
 		<p>Profil użytkownika <strong>{{user.username}}</strong></p>
-		<p>Bla bla bla (opis użytkownika)</p>
 		<br/>
 		<br/>
-		<p>Planujecie pójść wspólnie do XXXXXX escape roomów: (+ wymienić)</p>
-		<p>Planujecie iść do XXXXXXXXX tych samych escape roomów: (+ wymienić)</p>
-		<form action="{% url 'application:profile' user.id %}" method="post">
-			{% csrf_token %}
-			<input type="submit" value="Zaproś do znajomych">
-		</form>
+		{% if commonERs_len == 0 %}
+			<p>Nie ma escape roomu, w którym i Ty, i {{user.username}} byliście.</p>
+		{% else %}
+			<p>Byliście w {{commonERs_len}} tych samych escape roomach:</p>
+		{% endif %}
+		<ul>
+			{% for ER in commonERs%}
+				<li>{{ER.name}}(<em><a href = {{ER.url}}>Zobacz na LockMe</a></em>)</li>
+			{% endfor %}
+		</ul>
+
+		{% comment %}
+			<p>Planujecie pójść wspólnie do XXXXXX escape roomów: (+ wymienić)</p>
+			<p>Planujecie iść do XXXXXXXXX tych samych escape roomów: (+ wymienić)</p>
+		{% endcomment %}
+
+
+		{% if user in me.buddies.all %}
+			<form action="{% url 'application:profile' user.id %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="delete_buddies">
+				<input type="submit" value="Usuń ze znajomych">
+			</form>
+		{% else %}
+			<form action="{% url 'application:profile' user.id %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="add_buddies">
+				<input type="submit" value="Dodaj do znajomych">
+			</form>
+		{% endif %}
 
 	{% endif %}
 </body>

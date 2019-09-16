@@ -125,23 +125,28 @@ def goingOut(request, goingout_id):
 	
 	unvisited = EscapeRoom.objects.all().difference(visited_by_participants)
 
+	modified = False
+	
 	def tryAddParticipant(key):
-		if key in request.POST:
-			try:
-				participant = User.objects.get(username = request.POST[key])
-			except User.DoesNotExist:
-				return render(request, 'application/goingout.html', {
-					'go': go,
-					'participant_error_message': "Taki użytkownik nie istnieje.",
-					'unvisited': unvisited,
-					'me': me,
-				})
-			else:
-				go.participants.add(participant)
-				go.save()
-				return HttpResponseRedirect("/wyjscie/" + str(go.pk))
-	tryAddParticipant('participant_name_text')
-	tryAddParticipant('participant_name_list')
+		if key in request.POST and request.POST[key] != "":
+			participant = User.objects.get(username = request.POST[key])
+			go.participants.add(participant)
+			nonlocal modified
+			modified = True
+	
+	try:
+		tryAddParticipant('participant_name_text')
+		tryAddParticipant('participant_name_list')
+	except User.DoesNotExist:
+		return render(request, 'application/goingout.html', {
+			'go': go,
+			'participant_error_message': "Taki użytkownik nie istnieje.",
+			'unvisited': unvisited,
+			'me': me,
+		})
+	if modified:
+		go.save()
+		return HttpResponseRedirect("/wyjscie/" + str(go.pk))
 
 	if 'delete_event' in request.POST:
 		go.delete()
@@ -216,14 +221,33 @@ def buddies(request):
 
 def profile(request, user_id):
 
+	me = getMe(request)
+
 	try:
 		user = User.objects.get(id = user_id)
 	except User.DoesNotExist:
 		raise Http404("Użytkownik nie istnieje.")
 
+	visited_user = user.visited.all()
+	visited_me = me.visited.all()
+	commonERs = visited_user.intersection(visited_me)
+	commonERs_len = len(commonERs)
+
+	if 'add_buddies' in request.POST:
+		me.buddies.add(user)
+		me.save()
+		return HttpResponseRedirect(reverse('application:profile', kwargs={'user_id': user_id}))
+
+	if 'delete_buddies' in request.POST:
+		me.buddies.remove(user)
+		me.save()
+		return HttpResponseRedirect(reverse('application:profile', kwargs={'user_id': user_id}))
+
 	return render(request, 'application/profile.html', {
-		'me': getMe(request),
+		'me': me,
 		'user': user,
+		'commonERs': commonERs,
+		'commonERs_len': commonERs_len,
 	})
 
 def users(request):

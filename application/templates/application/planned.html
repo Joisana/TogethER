@@ -17,7 +17,7 @@
 
 	Planowane wyjścia do escape roomów: <br/><br/>
 
-	<div style='ramka_do_wyjsc'></div>
+	<div class='ramka_do_wyjsc'></div>
 		<table>
 			{% for goingout in planned_goingouts %}
 			<tr>
@@ -38,6 +38,8 @@
 					</form>
 				</td>
 			</tr>
+			{% empty %}
+				<p>brak planowanych wyjść :(</p>
 			{% endfor %}
 		</table>
 	</div>
