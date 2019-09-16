@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'application/style.css' %}">
+</head>
+
+<body>
+	{% include "application/main_menu.html" %}
+
+<p>Wszyscy użytkownicy TogethER (w kolejności od dołączenia):
+	{% for user in users %}
+		<strong><a href = {% url 'application:profile' user.id %}>{{user.username}}</a></strong>{% if not forloop.last %}, {% endif %}
+	{% endfor %}
+</p>
+
+</body>
+</html>

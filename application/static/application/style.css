@@ -1,9 +1,10 @@
 body {
-  background-color: #ffffff;
+  background-color: rgb(58, 27, 3); /* na wypadek, gdyby obrazek nie działał */
   margin: 10px;
-  font-family: Verdana, Helvetica, sans-serif;
-  width: 95%;
-
+  color: white;
+  background-image: url('./tlo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 ul.menu {
@@ -18,19 +19,19 @@ ul.menu {
   background-color: #ede89d;
   position: fixed;
   top: 0;
-  width: 95%;
-
+  width: 90%;
 }
 
 li.menu {
   font-family: Verdana, Helvetica, sans-serif;
-  font-color: white;
+  color: purple;
   float: left;
   text-decoration: none;
   padding: 5px;
 }
 
 li.menu a{
+  padding: 5px;
   font-weight: bold;
 }
 
@@ -72,38 +73,7 @@ li.right a{
   text-decoration: none;
 }
 
-div.page {
-  background-color: #ede89d;
-
-  position: top;
-  left: 0;
-  top: 50%;
-  width: 100%;
-  text-align: center;
-  font-size: 15px;
-}
-
-p.header{
-  font-size: 25px;
+.error {
+  color:red;
   font-weight: bold;
-}
-
-table.goingout{
-  align: center;
-  text-align: center;
-  position: top;
-}
-
-input.button {
-  background-color: black;
-  font-weight: bold;
-  border: none;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
 }

@@ -8,26 +8,26 @@
 
 <body>
 	{% include "application/main_menu.html" %}
-	<div class="page">
-		<form action="{% url 'application:buddies' %}" method="post">
-			{% csrf_token %}
-			<label for="buddy_name">Wpisz nazwę użytkownika, którego chcesz zaprosić do znajomych: </label>
-			<br>
-			<input id="buddy_name" type="text" name="buddy_name" value="">
-			{% if buddy_error_message %}
-				{{buddy_error_message}}
-			{% endif %}
-			{% if me_error_message %}
-				{{me_error_message}}
-			{% endif %}
-			<input class="button" type="submit" value="Zaproś">
-		</form>
 
-		<p>Twoi znajomi:
-			{% for buddy in me.buddies.all %}
-				<strong>{{buddy.username}}</strong>{% if not forloop.last %}, {% endif %}
-			{% endfor %}
-		</p>
-	</div>
+<form action="{% url 'application:buddies' %}" method="post">
+	{% csrf_token %}
+	<label for="buddy_name">Wpisz nazwę użytkownika, którego chcesz zaprosić do znajomych: </label>
+	<input id="buddy_name" type="text" name="buddy_name" value="">
+	{% if buddy_error_message %}
+		<div class="error">{{buddy_error_message}}</div>
+	{% endif %}
+	{% if me_error_message %}
+		<div class="error">{{me_error_message}}</div>
+	{% endif %}
+	<br/>
+	<input type="submit" value="Zaproś">
+</form>
+
+<p>Twoi znajomi:
+	{% for buddy in me.buddies.all %}
+		<strong><a href = {% url 'application:profile' buddy.id %}>{{buddy.username}}</a></strong>{% if not forloop.last %}, {% endif %}
+	{% endfor %}
+</p>
+
 </body>
 </html>

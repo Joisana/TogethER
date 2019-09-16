@@ -15,9 +15,6 @@ def getMe(request):
 def index(request):
 	return render(request, 'application/index.html', {'me': getMe(request)})
 
-def users(request):
-	return HttpResponse("Tutaj będzie lista wszystkich użytkowników.")
-
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
@@ -35,8 +32,10 @@ def registration(request):
 
 	# jeśli powtarza się nazwa użytkownika
 	if User.objects.filter(username=request.POST['username']): 
+		user = User.objects.get(username=request.POST['username']) # NOWE
 		return render(request, 'application/registration.html', {
 			'error_message_exists': request.POST['username'],
+			'user': user,
 		})
 
 	# jeśli hasło jest za krótkie (użytkownik zostawił puste pole lub wpisał za krótkie hasło)
@@ -85,8 +84,8 @@ def escaperooms(request):
 
 	me = User.objects.get(id=request.session['user_id'])
 
-	if 'escaperooms[]' in request.POST:
-		#lista id odwiedzonych escape roomów
+	if 'escaperooms_changes' in request.POST: # jeśli kliknięto "Zapisz zmiany"
+		# lista id odwiedzonych escape roomów
 		visitedIdList = [int(s) for s in request.POST.getlist('escaperooms[]')]
 		me.visited.set([EscapeRoom.objects.get(id = i) for i in visitedIdList])
 		me.save()
@@ -126,28 +125,33 @@ def goingOut(request, goingout_id):
 	
 	unvisited = EscapeRoom.objects.all().difference(visited_by_participants)
 
+	def tryAddParticipant(key):
+		if key in request.POST:
+			try:
+				participant = User.objects.get(username = request.POST[key])
+			except User.DoesNotExist:
+				return render(request, 'application/goingout.html', {
+					'go': go,
+					'participant_error_message': "Taki użytkownik nie istnieje.",
+					'unvisited': unvisited,
+					'me': me,
+				})
+			else:
+				go.participants.add(participant)
+				go.save()
+				return HttpResponseRedirect("/wyjscie/" + str(go.pk))
+	tryAddParticipant('participant_name_text')
+	tryAddParticipant('participant_name_list')
 
-	if 'participant_name' in request.POST:
-		try:
-			participant = User.objects.get(username = request.POST['participant_name'])
-		except User.DoesNotExist:
-			return render(request, 'application/goingout.html', {
-				'go': go,
-				'me': getMe(request),
-				'participant_error_message': "Taki użytkownik nie istnieje.",
-				'unvisited': unvisited,
-				'me': me,
-			})
-		else:
-			go.participants.add(participant)
-			go.save()
-			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
-
-
-	# TUTAJ COŚ NIE DZIAŁA
 	if 'delete_event' in request.POST:
 		go.delete()
 		return HttpResponseRedirect(reverse('application:planned'))
+
+
+	if 'reset_decision' in request.POST:
+		go.decision = None
+		go.save()
+		return HttpResponseRedirect(reverse('application:goingout', kwargs={'goingout_id': goingout_id}))
 
 
 	return render(request, 'application/goingout.html', {
@@ -220,4 +224,15 @@ def profile(request, user_id):
 	return render(request, 'application/profile.html', {
 		'me': getMe(request),
 		'user': user,
+	})
+
+def users(request):
+	
+	me = getMe(request)
+	if not me:
+		return HttpResponseRedirect(reverse('application:index'))
+
+	return render(request, 'application/users.html', {
+		'me': me,
+		'users': User.objects.all()
 	})

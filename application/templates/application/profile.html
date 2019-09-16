@@ -9,4 +9,23 @@
 
 <body>
 	{% include "application/main_menu.html" %}
+
+	{% if user == me %}
+		<p>TWÓJ PROFIL</p>
+		</p>Napisz coś o sobie.</p>
+		<p>Zmień hasło.</p>
+
+	{% elif user != me %}
+		<p>Profil użytkownika <strong>{{user.username}}</strong></p>
+		<p>Bla bla bla (opis użytkownika)</p>
+		<br/>
+		<br/>
+		<p>Planujecie pójść wspólnie do XXXXXX escape roomów: (+ wymienić)</p>
+		<p>Planujecie iść do XXXXXXXXX tych samych escape roomów: (+ wymienić)</p>
+		<form action="{% url 'application:profile' user.id %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Zaproś do znajomych">
+		</form>
+
+	{% endif %}
 </body>
