@@ -9,23 +9,24 @@
 
 <body>
 	{% include "application/main_menu.html" %}
-	
-	<form action="{% url 'application:login' %}" method="post">
-		{% csrf_token %}
-		<label for="username">Nazwa użytkownika: </label>
-		<input id="username" type="text" name="username" value="">
+	<div class="page">
+		<form action="{% url 'application:login' %}" method="post">
+			{% csrf_token %}
+			<label for="username">Nazwa użytkownika: </label>
+			<input id="username" type="text" name="username" value="">
 
-		<br/>
-		<label for="password">Hasło: </label>
-		<input id="password" type="password" name="password" value="">
+			<br/>
+			<label for="password">Hasło: </label>
+			<input id="password" type="password" name="password" value="">
 
-		<br/>
-		<input type="submit" value="Zaloguj">
-	</form>
+			<br/>
+			<input type="submit" value="Zaloguj">
+		</form>
 
-	{% if error_message %}
-		<div class="error">{{ error_message }}</div>
-	{% endif %}
+		{% if error_message %}
+			<div class="error">{{ error_message }}</div>
+		{% endif %}
+	</div>
 </body>
 
 </html>

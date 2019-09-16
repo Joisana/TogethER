@@ -6,7 +6,6 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: Verdana, Helvetica, sans-serif;
-  font-color: black;
 
 }
 
@@ -91,7 +90,7 @@ ul.frame{
   padding: 5px;
   border-radius: 5px;
   list-style-type: none;
-  font-color: black;
+  color: black;
 }
 
 div.page{

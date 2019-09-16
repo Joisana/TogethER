@@ -15,11 +15,6 @@
 			</p>Napisz coś o sobie.</p>
 			<p>Zmień hasło.</p>
 
-		{% if user == me %}
-			<p>TWÓJ PROFIL</p>
-			<p>Napisz coś o sobie.</p>
-			<p>Zmień hasło.</p>
-
 		{% elif user != me %}
 			<p>Profil użytkownika <strong>{{user.username}}</strong></p>
 			<br/>
