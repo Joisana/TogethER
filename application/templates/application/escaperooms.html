@@ -19,7 +19,7 @@
 
 		{% else %}
 
-			<p>Zaznacz odwiedzone pokoje.</p>
+			<p class="header">Zaznacz odwiedzone pokoje.</p>
 
 			<form action="{% url 'application:escaperooms' %}" method="post">
 				{% csrf_token %}
@@ -33,7 +33,7 @@
 						{% if which_escape_rooms == "unvisited" %} selected {% endif %}>nieodwiedzone</option>
 				</select>
 				escape roomy.
-				{# <input type="submit" value="Zatwierdź"> #}
+				{# <input class="button" type="submit" value="Zatwierdź"> #}
 			</form>
 
 			<form action="{% url 'application:escaperooms' %}" method="post">
@@ -52,7 +52,7 @@
 					</div>
 				{% endfor %}
 				<br/>
-				<input type="submit" value="Zapisz zmiany">
+				<input class="button" type="submit" value="Zapisz zmiany">
 			</form>
 		{% endif %}
 	</div>

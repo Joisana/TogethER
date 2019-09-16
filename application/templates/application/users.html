@@ -8,12 +8,12 @@
 
 <body>
 	{% include "application/main_menu.html" %}
-
-<p>Wszyscy użytkownicy TogethER (w kolejności od dołączenia):
-	{% for user in users %}
-		<strong><a href = {% url 'application:profile' user.id %}>{{user.username}}</a></strong>{% if not forloop.last %}, {% endif %}
-	{% endfor %}
-</p>
-
+	<div class="page">
+		<p>Wszyscy użytkownicy TogethER (w kolejności od dołączenia):
+			{% for user in users %}
+				<strong><a href = {% url 'application:profile' user.id %}>{{user.username}}</a></strong>{% if not forloop.last %}, {% endif %}
+			{% endfor %}
+		</p>
+	</div>
 </body>
 </html>

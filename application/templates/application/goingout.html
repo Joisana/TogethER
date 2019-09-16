@@ -34,7 +34,7 @@
 				<div class="error">{{participant_error_message}}</div>
 			{% endif %}
 			<br/>
-			<input type="submit" value="Zaproś">
+			<input class="button" type="submit" value="Zaproś">
 		</form>
 		<br/>
 		<br/>
@@ -51,19 +51,19 @@
 					Brak escape roomów, do których wszyscy mogą pójść :( <br/>
 				{% endfor %}
 				<br>
-				<input type="submit" value="Wybierz">
+				<input class="button" type="submit" value="Wybierz">
 			</form>
 
 			<form action="{% url 'application:goingout' go.id %}" method="post">
 				{% csrf_token %}
-				<input type="submit" name="reset_decision" value="Jeszcze się nie zdecydowałem">
+				<input class="button" type="submit" name="reset_decision" value="Jeszcze się nie zdecydowałem">
 			</form>
 
 			<br/>
 			<br/>
 			<form action="{% url 'application:goingout' go.id %}" method="post">
 				{% csrf_token %}
-				<input type="submit" name="delete_event" value="Usuń wydarzenie">
+				<input class="button" type="submit" name="delete_event" value="Usuń wydarzenie">
 			</form>
 		</p>
 	</div>
