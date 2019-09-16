@@ -17,12 +17,12 @@
 
 	Planowane wyjścia do escape roomów: <br/><br/>
 
-	<div style='ramka_do_wyjsc'></div>
+	<div style='ramka_do_wyjsc' align="top"></div>
 		<table>
 			{% for goingout in planned_goingouts %}
 			<tr>
 				<td>
-					<ul>
+					<ul class="frame">
 						<li>Uczestnicy:
 							{% for participant in goingout.participants.all %}
 							<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}

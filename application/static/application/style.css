@@ -5,6 +5,13 @@ body {
   background-image: url('./tlo.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-color: black;
+
+}
+
+ul {
+  font-family: Verdana, Helvetica, sans-serif;
 }
 
 ul.menu {
@@ -76,4 +83,12 @@ li.right a{
 .error {
   color:red;
   font-weight: bold;
+}
+
+ul.frame{
+  background-color: #ede89d;
+  padding: 5px;
+  border-radius: 5px;
+  list-style-type: none;
+  font-color: black;
 }
