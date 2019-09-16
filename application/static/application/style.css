@@ -1,12 +1,11 @@
 body {
   background-color: rgb(58, 27, 3); /* na wypadek, gdyby obrazek nie działał */
   margin: 10px;
-  color: white;
+  color: black;
   background-image: url('./tlo.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: Verdana, Helvetica, sans-serif;
-
 }
 
 ul {
@@ -21,7 +20,6 @@ ul.menu {
   list-style-type: none;
   margin: 0px;
   padding: 5px;
-  overflow: hidden;
   background-color: #ede89d;
   position: fixed;
   top: 0;
@@ -94,7 +92,40 @@ ul.frame{
 }
 
 div.page{
+  width: 50%;
   align: center;
   text-align: center;
-  position: top;
+  position: relative;
+  left: 25%;
+
+  padding: 5px;
+
+  background-color: #ede89d;
+  background-image: none;
+
+  border-radius: 15px;
+  border-style: dotted;
+  border-width: 5px;
+  border-color: black;
+}
+
+input.button {
+  background-color: black;
+  border-radius: 5px;
+
+  font-weight: bold;
+  border: none;
+  color: white;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+p.header{
+  font-size: 25px;
+  font-weight: bold;
 }

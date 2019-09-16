@@ -9,13 +9,12 @@
 <body>
 	{% include "application/main_menu.html" %}
 	<div class="page">
+		<p class="header">Planowane wyjścia do escape roomów: </p>
 		<form action="{% url 'application:newgoingout' %}" method="post">
 			{% csrf_token %}
-			<input type="submit" value="Utwórz nowe wyjście">
+			<input class="button" type="submit" value="Utwórz nowe wyjście">
 		</form>
 		<br/>
-
-		Planowane wyjścia do escape roomów: <br/><br/>
 
 		<table align="center">
 			{% for goingout in planned_goingouts %}
@@ -33,7 +32,7 @@
 				<td>
 					<form action="{% url 'application:goingout' goingout.id %}" method="post">
 						{% csrf_token %}
-						<input type="submit" value="Edytuj wyjście">
+						<input class="button" type="submit" value="Edytuj wyjście">
 					</form>
 				</td>
 			</tr>
