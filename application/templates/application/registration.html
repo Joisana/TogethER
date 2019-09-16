@@ -8,25 +8,26 @@
 
 <body>
     {% include "application/main_menu.html" %}
+    <div class="page">
+        form action="{% url 'application:registration' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Nazwa użytkownika: </label>
+            <input id="username" type="text" name="username" value="">
 
-    <form action="{% url 'application:registration' %}" method="post">
-        {% csrf_token %}
-        <label for="username">Nazwa użytkownika: </label>
-        <input id="username" type="text" name="username" value="">
+            <br/>
+            <label for="password">Hasło: </label>
+            <input id="password" type="password" name="password" value="">
 
-        <br/>
-        <label for="password">Hasło: </label>
-        <input id="password" type="password" name="password" value="">
+            <br/>
+            <input type="submit" value="Zarejestruj">
+        </form>
 
-        <br/>
-        <input type="submit" value="Zarejestruj">
-    </form>
-
-    {% if error_message_exists %}
-        <div class="error">Już istnieje użytkownik <a href = {% url 'application:profile' user.id %}>{{user.username}}.</div>
-    {% elif error_message %}
-        <div class="error">{{ error_message }}</div>
-    {% endif %}
+        {% if error_message_exists %}
+            <div class="error">Już istnieje użytkownik <a href = {% url 'application:profile' user.id %}>{{user.username}}.</div>
+        {% elif error_message %}
+            <div class="error">{{ error_message }}</div>
+        {% endif %}
+    </div>
 </body>
 
 </html>

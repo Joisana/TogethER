@@ -8,53 +8,54 @@
 
 <body>
 	{% include "application/main_menu.html" %}
+	<div class="page">
+		{% if not me %}
+			<strong> Lista escape roomów </strong>
+				<ul>
+					{% for escaperoom in escaperooms %}
+					<li> {{escaperoom.name}} (<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)</li>
+					{% endfor %}
+				</ul>
 
-	{% if not me %}
-		<strong> Lista escape roomów </strong>
-			<ul>
+		{% else %}
+
+			<p>Zaznacz odwiedzone pokoje.</p>
+
+			<form action="{% url 'application:escaperooms' %}" method="post">
+				{% csrf_token %}
+				Pokaż
+				<select name="which_escape_rooms" onchange="this.form.submit()"> {# wstawka z JavaScriptu #}
+					<option value="all"
+						{% if which_escape_rooms == "all" %} selected {% endif %}>wszystkie</option>
+					<option value="visited"
+						{% if which_escape_rooms == "visited" %} selected {% endif %}>odwiedzone</option>
+					<option value="unvisited"
+						{% if which_escape_rooms == "unvisited" %} selected {% endif %}>nieodwiedzone</option>
+				</select>
+				escape roomy.
+				{# <input type="submit" value="Zatwierdź"> #}
+			</form>
+
+			<form action="{% url 'application:escaperooms' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="escaperooms_changes" value="1">
+
 				{% for escaperoom in escaperooms %}
-				<li> {{escaperoom.name}} (<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)</li>
+					<div {% if which_escape_rooms == 'unvisited' and escaperoom in visited %}hidden{% endif %}
+						{% if which_escape_rooms == 'visited' and escaperoom not in visited %}hidden{% endif %}>
+						<label>
+							<input type="checkbox" name="escaperooms[]" value={{escaperoom.id}}
+								{% if escaperoom in visited %}checked{% endif %}>
+							{{escaperoom.name}}
+						</label>
+						(<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)<br/>
+					</div>
 				{% endfor %}
-			</ul>
-
-	{% else %}
-
-		<p>Zaznacz odwiedzone pokoje.</p>
-
-		<form action="{% url 'application:escaperooms' %}" method="post">
-			{% csrf_token %}
-			Pokaż
-			<select name="which_escape_rooms" onchange="this.form.submit()"> {# wstawka z JavaScriptu #}
-				<option value="all"
-					{% if which_escape_rooms == "all" %} selected {% endif %}>wszystkie</option>
-				<option value="visited" 
-					{% if which_escape_rooms == "visited" %} selected {% endif %}>odwiedzone</option>
-				<option value="unvisited" 
-					{% if which_escape_rooms == "unvisited" %} selected {% endif %}>nieodwiedzone</option>
-			</select>
-			escape roomy.
-			{# <input type="submit" value="Zatwierdź"> #}
-		</form>
-
-		<form action="{% url 'application:escaperooms' %}" method="post">
-			{% csrf_token %}
-			<input type="hidden" name="escaperooms_changes" value="1">
-
-			{% for escaperoom in escaperooms %}
-				<div {% if which_escape_rooms == 'unvisited' and escaperoom in visited %}hidden{% endif %}
-					{% if which_escape_rooms == 'visited' and escaperoom not in visited %}hidden{% endif %}>
-					<label>
-						<input type="checkbox" name="escaperooms[]" value={{escaperoom.id}}
-							{% if escaperoom in visited %}checked{% endif %}>
-						{{escaperoom.name}}
-					</label>
-					(<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)<br/>
-				</div>
-			{% endfor %}
-			<br/>
-			<input type="submit" value="Zapisz zmiany">
-		</form>
-	{% endif %}
+				<br/>
+				<input type="submit" value="Zapisz zmiany">
+			</form>
+		{% endif %}
+	</div>
 </body>
 
 </html>

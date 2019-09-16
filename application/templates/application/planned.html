@@ -8,39 +8,39 @@
 
 <body>
 	{% include "application/main_menu.html" %}
+	<div class="page">
+		<form action="{% url 'application:newgoingout' %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Utwórz nowe wyjście">
+		</form>
+		<br/>
 
-	<form action="{% url 'application:newgoingout' %}" method="post">
-		{% csrf_token %}
-		<input type="submit" value="Utwórz nowe wyjście">
-	</form>
-	<br/>
+		Planowane wyjścia do escape roomów: <br/><br/>
 
-	Planowane wyjścia do escape roomów: <br/><br/>
-
-	<div style='ramka_do_wyjsc' align="top"></div>
-		<table>
-			{% for goingout in planned_goingouts %}
-			<tr>
-				<td>
-					<ul class="frame">
-						<li>Uczestnicy:
-							{% for participant in goingout.participants.all %}
-							<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
-							{% endfor %}
-						<li>Organizator: <strong><a href = {% url 'application:profile' goingout.organisator.id %}>{{ goingout.organisator.username }}</a></strong></li>
-						<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
-					</ul>
-				</td>
-				<td>
-					<form action="{% url 'application:goingout' goingout.id %}" method="post">
-						{% csrf_token %}
-						<input type="submit" value="Edytuj wyjście">
-					</form>
-				</td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div style='ramka_do_wyjsc'>
+			<table align="center">
+				{% for goingout in planned_goingouts %}
+				<tr>
+					<td>
+						<ul class="frame">
+							<li>Uczestnicy:
+								{% for participant in goingout.participants.all %}
+								<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
+								{% endfor %}
+							<li>Organizator: <strong><a href = {% url 'application:profile' goingout.organisator.id %}>{{ goingout.organisator.username }}</a></strong></li>
+							<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
+						</ul>
+					</td>
+					<td>
+						<form action="{% url 'application:goingout' goingout.id %}" method="post">
+							{% csrf_token %}
+							<input type="submit" value="Edytuj wyjście">
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
 	</div>
-
 </body>
 </html>
