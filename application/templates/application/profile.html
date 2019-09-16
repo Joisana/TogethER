@@ -22,7 +22,10 @@
 		<br/>
 		<p>Planujecie pójść wspólnie do XXXXXX escape roomów: (+ wymienić)</p>
 		<p>Planujecie iść do XXXXXXXXX tych samych escape roomów: (+ wymienić)</p>
-			
+		<form action="{% url 'application:profile' user.id %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Zaproś do znajomych">
+		</form>
 
 	{% endif %}
 </body>

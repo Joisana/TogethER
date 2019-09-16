@@ -15,9 +15,6 @@ def getMe(request):
 def index(request):
 	return render(request, 'application/index.html', {'me': getMe(request)})
 
-def users(request):
-	return HttpResponse("Tutaj będzie lista wszystkich użytkowników.")
-
 def history(request):
     return HttpResponse("Tutaj będzie historia odwiedzin.")
 
@@ -128,21 +125,23 @@ def goingOut(request, goingout_id):
 	
 	unvisited = EscapeRoom.objects.all().difference(visited_by_participants)
 
-
-	if 'participant_name' in request.POST:
-		try:
-			participant = User.objects.get(username = request.POST['participant_name'])
-		except User.DoesNotExist:
-			return render(request, 'application/goingout.html', {
-				'go': go,
-				'participant_error_message': "Taki użytkownik nie istnieje.",
-				'unvisited': unvisited,
-				'me': me,
-			})
-		else:
-			go.participants.add(participant)
-			go.save()
-			return HttpResponseRedirect("/wyjscie/" + str(go.pk))
+	def tryAddParticipant(key):
+		if key in request.POST:
+			try:
+				participant = User.objects.get(username = request.POST[key])
+			except User.DoesNotExist:
+				return render(request, 'application/goingout.html', {
+					'go': go,
+					'participant_error_message': "Taki użytkownik nie istnieje.",
+					'unvisited': unvisited,
+					'me': me,
+				})
+			else:
+				go.participants.add(participant)
+				go.save()
+				return HttpResponseRedirect("/wyjscie/" + str(go.pk))
+	tryAddParticipant('participant_name_text')
+	tryAddParticipant('participant_name_list')
 
 	if 'delete_event' in request.POST:
 		go.delete()

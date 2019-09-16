@@ -14,10 +14,10 @@
 	<label for="buddy_name">Wpisz nazwę użytkownika, którego chcesz zaprosić do znajomych: </label>
 	<input id="buddy_name" type="text" name="buddy_name" value="">
 	{% if buddy_error_message %}
-		{{buddy_error_message}}
+		<div class="error">{{buddy_error_message}}</div>
 	{% endif %}
 	{% if me_error_message %}
-		{{me_error_message}}
+		<div class="error">{{me_error_message}}</div>
 	{% endif %}
 	<br/>
 	<input type="submit" value="Zaproś">

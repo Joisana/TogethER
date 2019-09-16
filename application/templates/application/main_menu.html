@@ -14,7 +14,7 @@
 	<li class="menu"><a href = "{% url 'application:history' %}">Historia wizyt</a></li>&nbsp
 	{% endcomment %}
 
-	<li class="menu right">Zalogowany jako <strong><a href = {% url 'application:profile' me.id %}>{{me.username}}</a></strong></li>
+	<li class="menu right">Zalogowany jako <a href = {% url 'application:profile' me.id %}>{{me.username}}</a></li>
 	<li class="menu right"><a href = "{% url 'application:logout' %}">WYLOGUJ</a></li>
 {% else %}
 	<li class="menu right"><a href = "{% url 'application:registration' %}">ZAREJESTRUJ</a></li>&nbsp

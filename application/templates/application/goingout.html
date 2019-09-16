@@ -21,11 +21,11 @@
 	
 	<form action="{% url 'application:goingout' go.id %}" method="post">
 		{% csrf_token %}
-		<label for="participant_name">Wpisz nazwę użytkownika, którego chcesz zaprosić: </label>
-		<input type="text" name="participant_name" value="">
+		Wpisz nazwę użytkownika, którego chcesz zaprosić:
+		<input type="text" name="participant_name_text" value="">
 		lub wybierz znajomego z listy:
-		<select name="participant_name">
-			<option value="---" selected>---</option> {% comment %} TERAZ DOPISANE {% endcomment %}
+		<select name="participant_name_list">
+			<option value="" selected>(wybierz użytkownika)</option> {% comment %} TERAZ DOPISANE {% endcomment %}
 			{% for user in me.buddies.all %}
 				<option>{{user.username}}</option>
 			{% endfor %}

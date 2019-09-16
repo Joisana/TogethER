@@ -13,7 +13,7 @@
 		<strong> Lista escape roomów </strong>
 			<ul>
 				{% for escaperoom in escaperooms %}
-				<li> {{escaperoom.name}}</li>
+				<li> {{escaperoom.name}} (<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)</li>
 				{% endfor %}
 			</ul>
 
