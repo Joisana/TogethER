@@ -39,6 +39,11 @@ li.menu a{
   font-weight: bold;
 }
 
+a:link{
+  text-decoration: none;
+  color: black;
+}
+
 li.menu a:link {
   margin-right: 10px;
   color: black;

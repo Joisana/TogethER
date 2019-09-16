@@ -11,9 +11,9 @@
 	{% include "application/main_menu.html" %}
 	<div class="page">
 		{% if user == me %}
-			<p>TWÓJ PROFIL</p>
+			<p class="header">Twój profil</p>
 			</p>Napisz coś o sobie.</p>
-			<p>Zmień hasło.</p>
+			<input class="button" type="submit" value="Zmień hasło">
 
 		{% elif user != me %}
 			<p>Profil użytkownika <strong>{{user.username}}</strong></p>
@@ -40,13 +40,13 @@
 				<form action="{% url 'application:profile' user.id %}" method="post">
 					{% csrf_token %}
 					<input type="hidden" name="delete_buddies">
-					<input type="submit" value="Usuń ze znajomych">
+					<input class="button" type="submit" value="Usuń ze znajomych">
 				</form>
 			{% else %}
 				<form action="{% url 'application:profile' user.id %}" method="post">
 					{% csrf_token %}
 					<input type="hidden" name="add_buddies">
-					<input type="submit" value="Dodaj do znajomych">
+					<input class="button" type="submit" value="Dodaj do znajomych">
 				</form>
 			{% endif %}
 
