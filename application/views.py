@@ -35,8 +35,10 @@ def registration(request):
 
 	# jeśli powtarza się nazwa użytkownika
 	if User.objects.filter(username=request.POST['username']): 
+		user = User.objects.get(username=request.POST['username']) # NOWE
 		return render(request, 'application/registration.html', {
 			'error_message_exists': request.POST['username'],
+			'user': user,
 		})
 
 	# jeśli hasło jest za krótkie (użytkownik zostawił puste pole lub wpisał za krótkie hasło)
@@ -223,4 +225,15 @@ def profile(request, user_id):
 	return render(request, 'application/profile.html', {
 		'me': getMe(request),
 		'user': user,
+	})
+
+def users(request):
+	
+	me = getMe(request)
+	if not me:
+		return HttpResponseRedirect(reverse('application:index'))
+
+	return render(request, 'application/users.html', {
+		'me': me,
+		'users': User.objects.all()
 	})

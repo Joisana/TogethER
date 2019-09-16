@@ -71,3 +71,7 @@ li.right{
 li.right a{
   text-decoration: none;
 }
+
+error {
+  color:red;
+}

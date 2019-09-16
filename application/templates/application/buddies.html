@@ -25,7 +25,7 @@
 
 <p>Twoi znajomi:
 	{% for buddy in me.buddies.all %}
-		<strong>{{buddy.username}}</strong>{% if not forloop.last %}, {% endif %}
+		<strong><a href = {% url 'application:profile' buddy.id %}>{{buddy.username}}</a></strong>{% if not forloop.last %}, {% endif %}
 	{% endfor %}
 </p>
 

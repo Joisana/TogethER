@@ -25,9 +25,9 @@
 					<ul>
 						<li>Uczestnicy:
 							{% for participant in goingout.participants.all %}
-							<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
+							<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
 							{% endfor %}
-						<li>Organizator: <strong>{{ goingout.organisator.username }}</strong></li>
+						<li>Organizator: <strong><a href = {% url 'application:profile' goingout.organisator.id %}>{{ goingout.organisator.username }}</a></strong></li>
 						<li>Escape room: {% if not goingout.decision %} brak decyzji {% else %} <strong>{{ goingout.decision.name }}{% endif %}</strong></li>
 					</ul>
 				</td>

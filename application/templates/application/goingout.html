@@ -13,20 +13,16 @@
 	<p>
 		Osoby, które idą na to wydarzenie:
 		{% for participant in go.participants.all %}
-		<strong>{{participant.username}}</strong>{% if not forloop.last %}, {% endif %}
+		<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
 		{% endfor %}
 	</p>
 
-	<p>Organizator: <strong>{{go.organisator.username}}</strong></p><br/>
+	<p>Organizator: <strong><a href = {% url 'application:profile' go.organisator.id %}>{{go.organisator.username}}</a></strong></p><br/>
 	
 	<form action="{% url 'application:goingout' go.id %}" method="post">
 		{% csrf_token %}
 		<label for="participant_name">Wpisz nazwę użytkownika, którego chcesz zaprosić: </label>
-		<input id="participant_name" type="text" name="participant_name" value="">
-		{% if participant_error_message %}
-			{{participant_error_message}}
-		{% endif %}
-		<br/>
+		<input type="text" name="participant_name" value="">
 		lub wybierz znajomego z listy:
 		<select name="participant_name">
 			<option value="---" selected>---</option> {% comment %} TERAZ DOPISANE {% endcomment %}
@@ -34,10 +30,14 @@
 				<option>{{user.username}}</option>
 			{% endfor %}
 		</select>
+		{% if participant_error_message %}
+			<div class="error">{{participant_error_message}}</div>
+		{% endif %}
 		<br/>
 		<input type="submit" value="Zaproś">
 	</form>
-
+	<br/>
+	<br/>
 
 	<p>
 		Proponowane escape roomy:<br/>

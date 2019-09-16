@@ -23,7 +23,7 @@
     </form>
 
     {% if error_message_exists %}
-        <p>Już istnieje użytkownik <strong>{{ error_message_exists }}</strong>.</p>
+        <p>Już istnieje użytkownik <strong><a href = {% url 'application:profile' user.id %}>{{user.username}}</a></strong>.</p>
     {% elif error_message %}
         <p><strong>{{ error_message }}</strong></p>
     {% endif %}
