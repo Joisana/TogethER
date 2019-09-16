@@ -8,21 +8,20 @@
 
 <body>
 	{% include "application/main_menu.html" %}
+	<div class="page">
+		<form action="{% url 'application:newgoingout' %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="Utwórz nowe wyjście">
+		</form>
+		<br/>
 
-	<form action="{% url 'application:newgoingout' %}" method="post">
-		{% csrf_token %}
-		<input type="submit" value="Utwórz nowe wyjście">
-	</form>
-	<br/>
+		Planowane wyjścia do escape roomów: <br/><br/>
 
-	Planowane wyjścia do escape roomów: <br/><br/>
-
-	<div class='ramka_do_wyjsc'></div>
-		<table>
+		<table align="center">
 			{% for goingout in planned_goingouts %}
 			<tr>
 				<td>
-					<ul>
+					<ul class="frame">
 						<li>Uczestnicy:
 							{% for participant in goingout.participants.all %}
 							<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
@@ -38,11 +37,8 @@
 					</form>
 				</td>
 			</tr>
-			{% empty %}
-				<p>brak planowanych wyjść :(</p>
 			{% endfor %}
 		</table>
 	</div>
-
 </body>
 </html>

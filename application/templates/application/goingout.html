@@ -9,64 +9,64 @@
 
 <body>
 	{% include "application/main_menu.html" %}
-	
-	<p>
-		Osoby, które idą na to wydarzenie:
-		{% for participant in go.participants.all %}
-		<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
-		{% endfor %}
-	</p>
-
-	<p>Organizator: <strong><a href = {% url 'application:profile' go.organisator.id %}>{{go.organisator.username}}</a></strong></p><br/>
-	
-	<form action="{% url 'application:goingout' go.id %}" method="post">
-		{% csrf_token %}
-		Wpisz nazwę użytkownika, którego chcesz zaprosić:
-		<input type="text" name="participant_name_text" value="">
-		lub wybierz znajomego z listy:
-		<select name="participant_name_list">
-			<option value="" selected>(wybierz użytkownika)</option> {% comment %} TERAZ DOPISANE {% endcomment %}
-			{% for user in me.buddies.all %}
-				<option>{{user.username}}</option>
+	<div class="page">
+		<p>
+			Osoby, które idą na to wydarzenie:
+			{% for participant in go.participants.all %}
+			<strong><a href = {% url 'application:profile' participant.id %}>{{participant.username}}</a></strong>{% if not forloop.last %}, {% endif %}
 			{% endfor %}
-		</select>
-		{% if participant_error_message %}
-			<div class="error">{{participant_error_message}}</div>
-		{% endif %}
-		<br/>
-		<input type="submit" value="Zaproś">
-	</form>
-	<br/>
-	<br/>
+		</p>
 
-	<p>
-		Proponowane escape roomy:<br/>
-		<form action="{% url 'application:goingout' go.id %}" method="post">
-			{% csrf_token %}
-			{% for escaperoom in unvisited.all %}
-				<input type="radio" name="chosen_escaperoom" id="escaperoom{{forloop.counter}}" 
-					value="{{ escaperoom.id }}"  {% if go.decision == escaperoom %} checked {% endif %}>
-				<label for="escaperoom{{ forloop.counter }}">{{escaperoom.name}}</label>
-			{% empty %}
-				Brak escape roomów, do których wszyscy mogą pójść :( <br/>
-			{% endfor %}
-			<br>
-			<input type="submit" value="Wybierz">
-		</form>
-		
-		<form action="{% url 'application:goingout' go.id %}" method="post">
-			{% csrf_token %}
-			<input type="submit" name="reset_decision" value="Jeszcze się nie zdecydowałem">
-		</form>
+		<p>Organizator: <strong><a href = {% url 'application:profile' go.organisator.id %}>{{go.organisator.username}}</a></strong></p><br/>
 
-		<br/>
-		<br/>
 		<form action="{% url 'application:goingout' go.id %}" method="post">
 			{% csrf_token %}
-			<input type="submit" name="delete_event" value="Usuń wydarzenie">
+			Wpisz nazwę użytkownika, którego chcesz zaprosić:
+			<input type="text" name="participant_name_text" value="">
+			lub wybierz znajomego z listy:
+			<select name="participant_name_list">
+				<option value="" selected>(wybierz użytkownika)</option> {% comment %} TERAZ DOPISANE {% endcomment %}
+				{% for user in me.buddies.all %}
+					<option>{{user.username}}</option>
+				{% endfor %}
+			</select>
+			{% if participant_error_message %}
+				<div class="error">{{participant_error_message}}</div>
+			{% endif %}
+			<br/>
+			<input type="submit" value="Zaproś">
 		</form>
-	</p>
-	
+		<br/>
+		<br/>
+
+		<p>
+			Proponowane escape roomy:<br/>
+			<form action="{% url 'application:goingout' go.id %}" method="post">
+				{% csrf_token %}
+				{% for escaperoom in unvisited.all %}
+					<input type="radio" name="chosen_escaperoom" id="escaperoom{{forloop.counter}}"
+						value="{{ escaperoom.id }}"  {% if go.decision == escaperoom %} checked {% endif %}>
+					<label for="escaperoom{{ forloop.counter }}">{{escaperoom.name}}</label>
+				{% empty %}
+					Brak escape roomów, do których wszyscy mogą pójść :( <br/>
+				{% endfor %}
+				<br>
+				<input type="submit" value="Wybierz">
+			</form>
+
+			<form action="{% url 'application:goingout' go.id %}" method="post">
+				{% csrf_token %}
+				<input type="submit" name="reset_decision" value="Jeszcze się nie zdecydowałem">
+			</form>
+
+			<br/>
+			<br/>
+			<form action="{% url 'application:goingout' go.id %}" method="post">
+				{% csrf_token %}
+				<input type="submit" name="delete_event" value="Usuń wydarzenie">
+			</form>
+		</p>
+	</div>
 </body>
 
 </html>
