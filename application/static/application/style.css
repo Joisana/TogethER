@@ -44,6 +44,23 @@ a:link{
   color: black;
 }
 
+a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: white;
+  text-decoration: none;
+}
+
 li.menu a:link {
   margin-right: 10px;
   color: black;

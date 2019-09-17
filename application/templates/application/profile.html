@@ -16,7 +16,7 @@
 			<input class="button" type="submit" value="Zmień hasło">
 
 		{% elif user != me %}
-			<p>Profil użytkownika <strong>{{user.username}}</strong></p>
+			<p class="header">Profil użytkownika <strong>{{user.username}}</strong></p>
 			<br/>
 			<br/>
 			{% if commonERs_len == 0 %}
