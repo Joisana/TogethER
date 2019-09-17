@@ -10,7 +10,7 @@
 	{% include "application/main_menu.html" %}
 	<div class="page">
 		{% if not me %}
-			<strong> Lista escape roomów </strong>
+			<p class="header"><strong> Lista escape roomów </strong></p>
 				<ul>
 					{% for escaperoom in escaperooms %}
 					<li> {{escaperoom.name}} (<em><a href="{{escaperoom.url}}">zobacz na LockMe</a></em>)</li>
